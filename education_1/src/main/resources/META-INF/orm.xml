@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns="http://java.sun.com/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+        version="2.0">
+ 
+   
+    
+    <named-native-query name="Emp.findByName" result-class="com.example.domain.Emp">
+    <query> 
+    <![CDATA[
+    	 select * from emp where emp_name = :empName
+    ]]>
+    </query>
+    </named-native-query>
+    
+    <named-native-query name="Emp.deleteByName" result-class="com.example.domain.Emp">
+    <query> 
+    <![CDATA[
+    	 update emp set EMP_DEL_FLG = 1 where emp_name = :empName
+    ]]>
+    </query>
+    </named-native-query>
+    
+    
+    <named-native-query name="Emp.findByID" result-class="com.example.domain.Emp">
+    <query> 
+    <![CDATA[
+    	 select * from emp where EMP_LOGIN_ID = :empLoginId
+    ]]>
+    </query>
+    </named-native-query>
+    
+    <named-native-query name="Emp.deleteByID" result-class="com.example.domain.Emp">
+    <query> 
+    <![CDATA[
+    	 update emp set EMP_DEL_FLG = 1 where EMP_LOGIN_ID = :empLoginId
+    ]]>
+    </query>
+    </named-native-query>
+    
+</entity-mappings>
