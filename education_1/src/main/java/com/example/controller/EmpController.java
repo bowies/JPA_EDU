@@ -26,6 +26,7 @@ public class EmpController {
 		log.info(list);
 		return list;
 	}
+	
 
 	// EMP 이름으로 검색해서 삭제 할꺼임
 	// 본인이름 으로
@@ -61,6 +62,11 @@ public class EmpController {
 		return empRepository.findByName(empName);
 	}
 
+	@RequestMapping(params = { "empId" }, method = { RequestMethod.GET })
+	public Emp findByEmpId(@RequestParam(name = "empId") Long empId) {
+		return empRepository.findByEmpId(empId);
+	}
+	
 	@RequestMapping(params = { "empName" }, method = { RequestMethod.PUT })
 	public void deleteByFlag(@RequestParam(name = "empName") String empName) {
 		empRepository.deleteByName(empName);
@@ -72,8 +78,8 @@ public class EmpController {
 	// }
 	
 	@RequestMapping(params = { "empLoginId" }, method = { RequestMethod.GET })
-	public Iterable<Emp> findByID(@RequestParam(name="empLoginId") String empLoginId) {
-		Iterable<Emp> list = empRepository.findByID(empLoginId);
+	public Iterable<Emp> findByEmpLoginId(@RequestParam(name="empLoginId") String empLoginId) {
+		Iterable<Emp> list = empRepository.findByEmpLoginId(empLoginId);
 
 		return list;
 	}
@@ -82,6 +88,7 @@ public class EmpController {
 	public void deleteByID(@RequestParam(name = "empLoginId") String empLoginId) {
 		empRepository.deleteByID(empLoginId);
 	}
+
 
 
 }

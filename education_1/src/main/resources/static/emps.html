@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/js/w2ui-1.4.3/w2ui-1.4.3.min.css" />
+<!-- w2ui 스타일 -->
+<script src="/js/jquery-2.2.4.min.js"></script>
+<!-- jquery 라이브러리 -->
+<script src="/js/w2ui-1.4.3/w2ui-1.4.3.js"></script>
+<!-- w2ui 라이브러리 -->
+</head>
+
+
+<body>
+	 	<div id="grid" style="width: 500px; height: 500px;"></div> 
+
+	 	<div id="grid2" ></div> <!-- div 테스트 -->
+
+	<script type="text/javascript">
+		// html에 그리드 div를 가져와서 그리드를 만들 거임!
+		// $('div#grid') //가져오는 코드 : 제이쿼리
+		// .w2grid(options); //그리드 만드는 코드: w2ui
+
+		//그리드를 만드는 방법은 설정/프로퍼티 등을 넘겨주는 것
+		var options = {
+			name : 'empGrid', //w2ui에서 id를 같이 씀
+			recid : 'empId', //id 컬럼명
+			columns : [ { //그냥 컬럼명
+				field : 'empId',
+				caption : '아이디',
+				size : '30%',
+				resizable : true
+			}, { //그냥 컬럼명
+				field : 'empName',
+				caption : '사원명',
+				size : '30%',
+				resizable : true
+			}, { //그냥 컬럼명
+				field : 'empTel',
+				caption : '전화',
+				size : '30%',
+				resizable : true
+			}, { //그냥 컬럼명
+				field : 'dept.deptId',
+				caption : '부서아이디',
+				size : '30%',
+				resizable : true
+			}, { //그냥 컬럼명
+				field : 'dept.deptName',
+				caption : '부서이름',
+				size : '30%',
+				resizable : true
+			} ],
+
+			url : '/emp/'
+
+		}
+
+		$('div#grid').w2grid(options); //그리드 만드는 코드: w2ui
+	</script>
+
+
+	<script type="text/javascript">
+		$.ajax({
+			url : '/emp?empName=0',//1개 불러오는 주소}
+			success : function(result) {
+				
+				$('div#grid2').text(result.empId);
+		
+			}
+
+		})
+	</script>
+	
+	<div>
+		<input id = 'empId'>
+	</div>
+	
+	<script type="text/javascript">
+		$.ajax({
+			url: '/emp?empId=20',
+			success: function(result){
+				console.log(result);
+				$('input#empId').val(result.empId);
+				
+			} 
+		})
+	
+	</script>
+
+
+</body>
+</html>

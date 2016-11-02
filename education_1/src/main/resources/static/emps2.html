@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/js/w2ui-1.4.3/w2ui-1.4.3.min.css" />
+<!-- w2ui 스타일 -->
+<script src="/js/jquery-2.2.4.min.js"></script>
+<!-- jquery 라이브러리 -->
+<script src="/js/w2ui-1.4.3/w2ui-1.4.3.js"></script>
+<!-- w2ui 라이브러리 -->
+</head>
+
+
+<body>
+	<div id="layout" style="height: 500px; background-color: black;"></div>
+	<!-- height 안 줘서 안 떴었음!! -->
+	<div id="grid"></div>
+
+	<script type="text/javascript">
+		var config = {
+						
+			grid: {
+					name: "grid",
+					show: {
+						footer:true,
+						toolbar: true
+					},
+					multiSearch: false,
+					searches:[ { 
+						field : 'empId',
+						caption : '아이디',
+						type : 'int'
+					}, { 
+						field : 'empName',
+						caption : '사원명',
+						type : 'text'
+					}, { 
+						field : 'dept.deptId',
+						caption : '부서아이디',
+						type : 'text'
+					}, { 
+						field : 'dept.deptName',
+						caption : '부서이름',
+						type : 'text'
+					}
+						
+						
+					],
+					recid : 'empId', 
+					columns : [ { 
+						field : 'empId',
+						caption : '아이디',
+						size : '30%',
+						resizable : true
+					}, { 
+						field : 'empName',
+						caption : '사원명',
+						size : '30%',
+						resizable : true
+					}, { 
+						field : 'dept.deptId',
+						caption : '부서아이디',
+						size : '30%',
+						resizable : true
+					}, { 
+						field : 'dept.deptName',
+						caption : '부서이름',
+						size : '30%',
+						resizable : true
+					} ],
+	
+				url: '/emp/',
+				onClick: function(event){
+
+					var record = w2ui.grid.get(event.recid);
+					//record.deptName = record.dept.deptName;
+					//record["dept.deptName"] = record.dept.deptName;
+					//record.deptName 이랑 record["dept.deptName"] 이랑 같은 거긴 한데
+					//밑에 레코드명을 고쳐야 함 !!
+					//근데 이거는 w2ui가 **라서 임시로 때운 거임...
+					
+					//이거를 저렇게 안 꿰매고 그냥 for문에 다 넣는 방법도 있음
+					for(var f in record){
+						if(typeof record[f] === 'object'){
+							console.log("f에요: " + f);
+							for(var q in record[f]){
+								console.log(" q에요: " + q);
+								record[f + '.' + q] = record[f][q];
+								
+							}
+						}
+						
+					}
+					//근데 굳이 안 돌려도 될 레코드일 때는 그냥 때우기 (빠름)
+					/*
+					emps2.html:61 f에요: dept
+					emps2.html:63  q에요: deptId
+					emps2.html:63  q에요: deptPid
+					emps2.html:63  q에요: deptDelFlg
+					emps2.html:63  q에요: deptLevel
+					emps2.html:63  q에요: deptName
+					emps2.html:63  q에요: deptHeadname
+					emps2.html:63  q에요: deptRemark
+					emps2.html:63  q에요: deptCode
+					emps2.html:63  q에요: deptFid
+					emps2.html:63  q에요: deptCreId
+					emps2.html:63  q에요: deptCreDate
+					emps2.html:63  q에요: deptCreTime
+					emps2.html:63  q에요: deptEdtId
+					emps2.html:63  q에요: deptEdtDate
+					emps2.html:63  q에요: deptEdtTime
+					emps2.html:63  q에요: deptAbbrname
+					emps2.html:63  q에요: deptScode
+					emps2.html:61 f에요: empTel
+					emps2.html:61 f에요: empMobile
+					emps2.html:61 f에요: empRemark
+					emps2.html:61 f에요: empPower
+					emps2.html:61 f에요: empEnterDate
+					emps2.html:61 f에요: empResignDate
+					emps2.html:61 f에요: empTitle
+					
+					이렇게 찍을 수 있음!!
+					그러니까 f랑 q가 int 형이 아니란걸 간과했군 !! var 난 니가 별로야...ㅠㅠ
+					너는 너무 가변적이야 근데 요즘 언어들은 다 저런 거 같음 ㅡㅡ 요즘 애들은 별로임
+					*/
+					
+					
+					//console.log(event);
+					//console.log(event.recid); //primary_key로 조회!
+					//console.log(w2ui.grid.get(event.recid));
+					w2ui.form.record = w2ui.grid.get(event.recid);
+					w2ui.form.refresh(); //refresh 안 하면 안 뜸!!
+					
+				}
+				
+			},
+			
+			
+		layout: {	
+				name: "layout",
+				padding: 4, //패딩
+				panels: [
+					{type: 'left', size: '250px', resizable: true, minSize: 100},
+					{type: 'main', minSize: 300}
+				]
+				
+			},
+			
+			form: {
+				name: 'form',
+				style: 'border: 0px; background-color: #f5f6f7;',
+				fields: [{field: 'dept.deptName', type: 'text'},
+					{field: 'deptName', type: 'text'},
+					
+					{field: 'empMobile', type: 'text'},
+					{field: 'empCode', type: 'text'},
+					{field: 'empCreDate', type: 'text'}	,
+					{field: 'empCreTime', type: 'text'}	,
+					{field: 'empEdtDate', type: 'text'}	,
+					{field: 'empEdtTime', type: 'text'}						
+				]
+				
+			}
+		}	
+		
+		
+		$('div#layout').w2layout(config.layout);//레이아웃
+
+		
+		w2ui.layout.content('left', $().w2grid(config.grid));
+		w2ui.layout.content('main', $().w2form(config.form));
+	
+	</script>
+	
+</body>
+</html>

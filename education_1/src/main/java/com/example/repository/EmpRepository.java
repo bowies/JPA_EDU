@@ -22,7 +22,7 @@ public interface EmpRepository extends CrudRepository<Emp, Long> {
 	
 	public Emp findByEmpId(Long empId);
 	
-
+	
 	@Query(nativeQuery=true)
 	public Emp findByName(@Param("empName") String empName);
 //	@Query(nativeQuery=true, value=" select * from emp where emp_name = :empName ")
@@ -41,7 +41,7 @@ public interface EmpRepository extends CrudRepository<Emp, Long> {
 
 	//1개 - emploginid
 	@Query(nativeQuery=true)
-	public List <Emp> findByID(@Param("empLoginId") String empLoginId);
+	public List <Emp> findByEmpLoginId(@Param("empLoginId") String empLoginId);
 	
 	
 	@Transactional //수정될 때는 트랜잭셔널 추가 - delete/update☆
